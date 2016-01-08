@@ -1,14 +1,14 @@
 #include <stdio.h>
-#define CodeLength 5
+#define CodeLength 1
 //#define PriKey 23
 //#define PubKey 47
 //#define modeN 120
 //unsigned long long PriKey=23;
 //unsigned long long PubKey=47;
-//unsigned long long modeN=120;
-unsigned long long PriKey=2683;
-unsigned long long PubKey=83809747;
-unsigned long long modeN=201128400;
+//unsigned long long modeN=143;
+unsigned long long PriKey=13049;
+unsigned long long PubKey=163821337;
+unsigned long long modeN=286512727;
 
 
 unsigned long long SquareMod(unsigned long long data,unsigned long long square, unsigned long long mod){
@@ -45,18 +45,20 @@ unsigned long long SquareMod(unsigned long long data,unsigned long long square, 
 	*/	
 }
 
-void decrypt(char *Ciphertext){
+void decrypt(unsigned long long *Ciphertext){
 	int i;
 	printf("Please wait for decryption\n");		
 	for(i=0;i<CodeLength;i++){		
-		Ciphertext[i]=SquareMod((unsigned long long)Ciphertext[i],PubKey, modeN);
+		Ciphertext[i]=SquareMod(Ciphertext[i],PubKey, modeN);
 	}
 }
-void encrypt(char *Plaintext){
+void encrypt(unsigned long long *Plaintext){
 	int i;
 	printf("Please wait for encryption\n");		
-	for(i=0;i<CodeLength;i++){		
-		Plaintext[i]=SquareMod((unsigned long long)Plaintext[i],PriKey, modeN);
+	for(i=0;i<CodeLength;i++){	
+		//printf("before:%llu\n",Plaintext[i]);		
+		Plaintext[i]=SquareMod( Plaintext[i],PriKey, modeN);
+		//printf("after:%llu\n",Plaintext[i]);		
 	}		
 }
 
@@ -66,26 +68,29 @@ int main()
 	unsigned long long i=0, inputB[100];
 	
 	printf("please input data to incrypte\n");
-
-	gets(input);
-	puts(input);
 	for(i=0;i<CodeLength;i++){
-		inputB[i]=(unsigned long long) input[i];
-		//printf("%d ", inputB[i]);		
+		scanf("%llu", &inputB[i]);
+		printf("%llu\n",inputB[i]);
 	}	
+	//gets(input);
+	//puts(input);
+	//for(i=0;i<CodeLength;i++){
+	//	inputB[i]=(unsigned long long) input[i];
+	//	printf("%llu ", inputB[i]);		
+	//}	
 
 	printf("\n");
 	encrypt(inputB);
 	printf("Ciphertext:");
 	for(i=0;i<CodeLength;i++){
-		printf("%x ", input[i]);
+		printf("%llu ", inputB[i]);
 	}
 
 	printf("\n");
 	decrypt(inputB);
 	printf("Plaintext:");
 	for(i=0;i<CodeLength;i++){
-		printf("%c", input[i]);
+		printf("%llu ", inputB[i]);
 	}
 	printf("\n");
 }
